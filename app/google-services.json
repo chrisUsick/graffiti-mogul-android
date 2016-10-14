@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "114185992389",
+    "project_id": "graffiti-mogul"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:114185992389:android:37d1483eb79f263e",
+        "android_client_info": {
+          "package_name": "com.cu_dev.graffitimogul"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "114185992389-i6glnvcf9u40jsrraa9fbbr3tnm1luu6.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.cu_dev.graffitimogul",
+            "certificate_hash": "12FE8C4EB2672130E6275C9B42AFEB6C14C430C3"
+          }
+        },
+        {
+          "client_id": "114185992389-4pqg52lotbhkbmngmmp65g0b0faqrhvr.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB2ZaMMrc_J01Mo52zw74-b0tpTraVwdYk"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
