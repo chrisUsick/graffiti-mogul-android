@@ -1,4 +1,11 @@
 <resources>
     <string name="app_name">Graffiti Mogul</string>
-    <string name="title_activity_home">Map</string>
+    <string name="title_activity_home">Graffiti Mogul</string>
+    <string name="location_permission_denied">Location Permission Denied</string>
+    <string name="permission_required_toast">This app needs your location</string>
+    <string name="permission_rationale_location">Acess to your location is needed to use this app</string>
+    <string name="title_activity_basic">BasicActivity</string>
+    <string name="extra_bitmap">extra_bitmap</string>
+    <string name="extra_bitmap_height">extra_bitmap_height</string>
+    <string name="extra_bitmap_config_name">extra_bitmap_config_name</string>
 </resources>
