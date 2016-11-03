@@ -18,6 +18,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
+import com.cu_dev.graffitimogul.domain.Tag;
+import com.cu_dev.graffitimogul.web.AbstractRequest;
+import com.cu_dev.graffitimogul.web.FetchTags;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -32,13 +35,17 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.nio.ByteBuffer;
+import java.util.List;
 
-public class HomeActivity extends AppCompatActivity implements OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener, GoogleMap.OnMyLocationButtonClickListener, View.OnClickListener {
+public class HomeActivity extends AppCompatActivity implements
+        OnMapReadyCallback, GoogleApiClient.OnConnectionFailedListener,
+        GoogleMap.OnMyLocationButtonClickListener, View.OnClickListener, AbstractRequest.RequestCallback<List<Tag>> {
 
     private static final int RC_SIGN_IN = 1;
     private static final String TAG = "HOME_ACTIVITY";
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private static final int REQUEST_IMAGE_CAPTURE = 2;
+    private static final int REQUEST_TAGS = 0;
     private GoogleMap mMap;
     private GoogleApiClient googleApiClient;
 
@@ -130,6 +137,13 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             // Access to the location has been granted to the app.
             mMap.setMyLocationEnabled(true);
         }
+
+        loadTags();
+    }
+
+    private void loadTags() {
+        FetchTags request = new FetchTags(REQUEST_TAGS, this);
+        request.execute(new FetchTags.Options());
     }
 
     @Override
@@ -173,5 +187,14 @@ public class HomeActivity extends AppCompatActivity implements OnMapReadyCallbac
             Toast.makeText(this, "Failed to get the image", Toast.LENGTH_SHORT)
                     .show();
         }
+    }
+
+    @Override
+    public void onRequest(int requestId, List<Tag> value) {
+        Log.d(TAG, "The first tag loaded is: " + value.get(0).getName());
+        Tag tag = value.get(0);
+        mMap.addMarker(new MarkerOptions()
+            .position(tag.getLatLng())
+            .title(tag.getName()));
     }
 }
