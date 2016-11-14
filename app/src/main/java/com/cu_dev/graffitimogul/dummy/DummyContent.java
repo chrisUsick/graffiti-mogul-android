@@ -1,6 +1,7 @@
 package com.cu_dev.graffitimogul.dummy;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -16,7 +17,8 @@ public class DummyContent {
     /**
      * An array of sample (dummy) items.
      */
-    public static final List<DummyItem> ITEMS = new ArrayList<DummyItem>();
+    public static final List<DummyItem> ITEMS = new ArrayList<DummyItem>(
+            Arrays.asList(new DummyItem("1", "Foo", "foo baloo")));
 
     /**
      * A map of sample (dummy) items, by ID.
