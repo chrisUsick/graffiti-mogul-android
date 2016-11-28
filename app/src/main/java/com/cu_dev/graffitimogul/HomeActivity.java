@@ -41,16 +41,17 @@ import java.nio.ByteBuffer;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity  implements
-        GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, TabLayout.OnTabSelectedListener {
+        GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, TabLayout.OnTabSelectedListener, AbstractRequest.RequestCallback<List<Tag>> {
 
     private static final int RC_SIGN_IN = 1;
     private static final String TAG = "HOME_ACTIVITY";
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private static final int REQUEST_IMAGE_CAPTURE = 2;
-    private static final int REQUEST_TAGS = 0;
+    private static final int REQUEST_FETCH_TAGS = 0;
     private GoogleMap mMap;
     private GoogleApiClient googleApiClient;
     private ViewPager viewPager;
+    private HomePagerAdapter mHomePagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,18 +65,20 @@ public class HomeActivity extends AppCompatActivity  implements
         setSupportActionBar(toolbar);
         ActionBar actionBar = getActionBar();
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabLayout);
-        tabLayout.addTab(tabLayout.newTab().setText("Map"));
-        tabLayout.addTab(tabLayout.newTab().setText("List"));
+//        tabLayout.addTab(tabLayout.newTab().setText("Map"));
+//        tabLayout.addTab(tabLayout.newTab().setText("List"));
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(this);
 
         viewPager = (ViewPager) findViewById(R.id.pager);
-        viewPager.setAdapter(new HomePagerAdapter(getSupportFragmentManager()));
+        mHomePagerAdapter = new HomePagerAdapter(getSupportFragmentManager());
+        viewPager.setAdapter(mHomePagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(this);
 
+        new FetchTags(1, this);
 
     }
 
@@ -184,6 +187,16 @@ public class HomeActivity extends AppCompatActivity  implements
     @Override
     public void onTabReselected(TabLayout.Tab tab) {
         Log.d(TAG, "Tab reselected: " + tab.getText().toString());
+        viewPager.setCurrentItem(tab.getPosition());
 
+    }
+
+    @Override
+    public void onRequest(int requestId, List<Tag> tags) {
+        switch (requestId) {
+            case REQUEST_FETCH_TAGS:
+                mHomePagerAdapter.setTags(tags);
+                break;
+        }
     }
 }
