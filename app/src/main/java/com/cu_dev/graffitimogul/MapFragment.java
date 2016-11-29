@@ -62,7 +62,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
      * @return A new instance of fragment MapFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static MapFragment newInstance(List<Tag> tags) {
+    public static MapFragment newInstance() {
         MapFragment fragment = new MapFragment();
         Bundle args = new Bundle();
 //        args.putString(ARG_PARAM1, param1);

@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.cu_dev.graffitimogul.TagListFragment.OnListFragmentInteractionListener;
+import com.cu_dev.graffitimogul.domain.Tag;
 import com.cu_dev.graffitimogul.dummy.DummyContent.DummyItem;
 
 import java.util.List;
@@ -18,10 +19,10 @@ import java.util.List;
  */
 public class MyTagRecyclerViewAdapter extends RecyclerView.Adapter<MyTagRecyclerViewAdapter.ViewHolder> {
 
-    private final List<DummyItem> mValues;
+    private final List<Tag> mValues;
     private final OnListFragmentInteractionListener mListener;
 
-    public MyTagRecyclerViewAdapter(List<DummyItem> items, OnListFragmentInteractionListener listener) {
+    public MyTagRecyclerViewAdapter(List<Tag> items, OnListFragmentInteractionListener listener) {
         mValues = items;
         mListener = listener;
     }
@@ -36,8 +37,8 @@ public class MyTagRecyclerViewAdapter extends RecyclerView.Adapter<MyTagRecycler
     @Override
     public void onBindViewHolder(final ViewHolder holder, int position) {
         holder.mItem = mValues.get(position);
-        holder.mIdView.setText(mValues.get(position).id);
-        holder.mContentView.setText(mValues.get(position).content);
+        holder.mIdView.setText("1");
+        holder.mContentView.setText(mValues.get(position).getName());
 
         holder.mView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +61,7 @@ public class MyTagRecyclerViewAdapter extends RecyclerView.Adapter<MyTagRecycler
         public final View mView;
         public final TextView mIdView;
         public final TextView mContentView;
-        public DummyItem mItem;
+        public Tag mItem;
 
         public ViewHolder(View view) {
             super(view);

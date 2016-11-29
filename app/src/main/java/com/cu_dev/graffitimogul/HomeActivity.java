@@ -38,10 +38,15 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.nio.ByteBuffer;
+import java.util.ArrayList;
 import java.util.List;
 
 public class HomeActivity extends AppCompatActivity  implements
-        GoogleApiClient.OnConnectionFailedListener, View.OnClickListener, TabLayout.OnTabSelectedListener, AbstractRequest.RequestCallback<List<Tag>> {
+        GoogleApiClient.OnConnectionFailedListener,
+        View.OnClickListener,
+        TabLayout.OnTabSelectedListener,
+        AbstractRequest.RequestCallback<List<Tag>>,
+        GetTagsList {
 
     private static final int RC_SIGN_IN = 1;
     private static final String TAG = "HOME_ACTIVITY";
@@ -52,6 +57,7 @@ public class HomeActivity extends AppCompatActivity  implements
     private GoogleApiClient googleApiClient;
     private ViewPager viewPager;
     private HomePagerAdapter mHomePagerAdapter;
+    private List<Tag> mTags;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +84,7 @@ public class HomeActivity extends AppCompatActivity  implements
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(this);
 
-        new FetchTags(1, this);
+        new FetchTags(REQUEST_FETCH_TAGS, this).execute(new FetchTags.Options());
 
     }
 
@@ -193,10 +199,18 @@ public class HomeActivity extends AppCompatActivity  implements
 
     @Override
     public void onRequest(int requestId, List<Tag> tags) {
+        Log.d(TAG, "Got request with id: " + requestId);
         switch (requestId) {
             case REQUEST_FETCH_TAGS:
-                mHomePagerAdapter.setTags(tags);
+                Log.d(TAG, "updating list of tags");
+                mTags = tags;
+                mHomePagerAdapter.notifyDataSetChanged();
                 break;
         }
+    }
+
+    @Override
+    public List<Tag> getTagList() {
+        return (mTags == null) ? new ArrayList<Tag>() : mTags;
     }
 }

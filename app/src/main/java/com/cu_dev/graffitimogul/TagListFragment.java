@@ -2,6 +2,7 @@ package com.cu_dev.graffitimogul;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcel;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.cu_dev.graffitimogul.domain.Tag;
 import com.cu_dev.graffitimogul.dummy.DummyContent;
 import com.cu_dev.graffitimogul.dummy.DummyContent.DummyItem;
 
@@ -21,13 +23,16 @@ import java.util.List;
  * Activities containing this fragment MUST implement the {@link OnListFragmentInteractionListener}
  * interface.
  */
-public class TagListFragment extends Fragment {
+public class TagListFragment extends Fragment  {
 
     // TODO: Customize parameter argument names
     private static final String ARG_COLUMN_COUNT = "column-count";
+    private static final String ARG_TAGS = "ARG_TAGS";
     // TODO: Customize parameters
     private int mColumnCount = 1;
     private OnListFragmentInteractionListener mListener;
+    private GetTagsList mTagsListActivity;
+    private List<Tag> mTags;
 
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
@@ -38,12 +43,19 @@ public class TagListFragment extends Fragment {
 
     // TODO: Customize parameter initialization
     @SuppressWarnings("unused")
-    public static TagListFragment newInstance(int columnCount) {
+    public static TagListFragment newInstance() {
         TagListFragment fragment = new TagListFragment();
         Bundle args = new Bundle();
-        args.putInt(ARG_COLUMN_COUNT, columnCount);
+//        args.putInt(ARG_COLUMN_COUNT, columnCount);
+
         fragment.setArguments(args);
         return fragment;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
     }
 
     @Override
@@ -52,6 +64,11 @@ public class TagListFragment extends Fragment {
 
         if (getArguments() != null) {
             mColumnCount = getArguments().getInt(ARG_COLUMN_COUNT);
+        }
+        try {
+            mTags = ((GetTagsList)mTagsListActivity).getTagList();
+        } catch (ClassCastException e) {
+            throw new ClassCastException(mTagsListActivity.toString() + "Must implement GetTagsList interface");
         }
     }
 
@@ -69,7 +86,7 @@ public class TagListFragment extends Fragment {
             } else {
                 recyclerView.setLayoutManager(new GridLayoutManager(context, mColumnCount));
             }
-            recyclerView.setAdapter(new MyTagRecyclerViewAdapter(DummyContent.ITEMS, mListener));
+            recyclerView.setAdapter(new MyTagRecyclerViewAdapter(mTags, mListener));
         }
         return view;
     }
@@ -84,6 +101,7 @@ public class TagListFragment extends Fragment {
 //            throw new RuntimeException(context.toString()
 //                    + " must implement OnListFragmentInteractionListener");
 //        }
+        mTagsListActivity = (GetTagsList)context;
     }
 
     @Override
@@ -104,6 +122,6 @@ public class TagListFragment extends Fragment {
      */
     public interface OnListFragmentInteractionListener {
         // TODO: Update argument type and name
-        void onListFragmentInteraction(DummyItem item);
+        void onListFragmentInteraction(Tag item);
     }
 }

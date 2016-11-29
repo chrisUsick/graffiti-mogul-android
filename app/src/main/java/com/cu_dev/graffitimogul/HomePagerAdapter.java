@@ -13,8 +13,6 @@ import java.util.List;
  * Created by chris on 03-Nov-16.
  */
 public class HomePagerAdapter extends FragmentPagerAdapter {
-    List<Tag> mTags;
-    private UpdateTags mCurrentFragment;
 
     public HomePagerAdapter(FragmentManager supportFragmentManager) {
         super(supportFragmentManager);
@@ -22,22 +20,17 @@ public class HomePagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        mCurrentFragment = null;
+        Fragment mCurrentFragment = null;
         if (position == 0) {
-            mCurrentFragment = new MapFragment(mTags);
+            mCurrentFragment = MapFragment.newInstance();
         } else if (position == 1) {
-          mCurrentFragment = new TagListFragment(mTags);
+          mCurrentFragment = TagListFragment.newInstance();
         }
-        return (Fragment)mCurrentFragment;
+        return mCurrentFragment;
     }
 
     @Override
     public int getCount() {
         return 2;
-    }
-
-    public void setTags(List<Tag> tags) {
-        this.mTags = tags;
-        mCurrentFragment.setTags(tags);
     }
 }
