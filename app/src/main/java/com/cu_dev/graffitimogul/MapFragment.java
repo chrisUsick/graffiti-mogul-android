@@ -50,6 +50,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 
     private OnFragmentInteractionListener mListener;
     private GoogleMap mMap;
+    private GetTagsList mTagListActivity;
 
     public MapFragment() {
         // Required empty public constructor
@@ -77,6 +78,8 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+        mTags = mTagListActivity.getTagList();
 
 
     }
@@ -106,6 +109,15 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
         }
 
         loadTags();
+        renderTags();
+    }
+
+    private void renderTags() {
+        for (Tag tag : mTags) {
+            mMap.addMarker(new MarkerOptions()
+                    .position(tag.getLatLng())
+                    .title(tag.getName()));
+        }
     }
 
     private void loadTags() {
@@ -117,9 +129,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
     public void onRequest(int requestId, List<Tag> value) {
         Log.d(TAG, "The first tag loaded is: " + value.get(0).getName());
         Tag tag = value.get(0);
-        mMap.addMarker(new MarkerOptions()
-                .position(tag.getLatLng())
-                .title(tag.getName()));
+
     }
 
     @Override
@@ -158,6 +168,7 @@ public class MapFragment extends Fragment implements OnMapReadyCallback,
 //            throw new RuntimeException(context.toString()
 //                    + " must implement OnFragmentInteractionListener");
 //        }
+        mTagListActivity = (GetTagsList)context;
     }
 
     @Override
